@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  ganache:
+    image: trufflesuite/ganache-cli:latest
+    ports:
+      - "8545:8545"
+    build: 
+      context: .
+      dockerfile: Dockerfile.ganache
+  server:
+    build: ./server
+    ports:
+      - "5000:5000"
+    depends_on: 
+      - ganache
+    image: satyamj9752/decentralized-complaint-management-system-server:latest
+  web:
+    build: ./client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+    image: satyamj9752/decentralized-complaint-management-system-client:latest
